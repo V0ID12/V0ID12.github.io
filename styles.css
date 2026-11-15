@@ -1,0 +1,612 @@
+/* ---------- Design tokens ---------- */
+:root {
+  --ink: #1a1c2c;            /* fixed dark colour, used on top of the accent */
+  --accent: #ffcd75;
+
+  --bg: #1a1c2c;
+  --surface: #252a41;
+  --line: #f0ead8;           /* outlines */
+  --text: #f0ead8;
+  --muted: #b9c1d1;
+  --shadow: #3b5dc9;         /* hard offset shadows */
+  --name-shadow-2: #b13e53;  /* the hero name's shadow cycles through these */
+  --name-shadow-3: #257179;
+  --link: #ffcd75;
+  --error: #ff8f9c;
+  --success: #a7f070;
+  --grid: rgba(255, 255, 255, 0.03);
+
+  --font-body: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  --font-pixel: "Silkscreen", "Courier New", monospace;
+  --border: 3px solid var(--line);
+  --drop: 5px;               /* shadow offset */
+  --max-width: 1000px;
+}
+
+:root[data-theme="light"] {
+  --bg: #f3ead3;
+  --surface: #fffaf0;
+  --line: #1a1c2c;
+  --text: #1a1c2c;
+  --muted: #4a4e61;
+  --shadow: #1a1c2c;
+  --name-shadow-2: #ef7d57;
+  --name-shadow-3: #73c2a5;
+  --link: #a8324a;
+  --error: #b3243f;
+  --success: #257a3e;
+  --grid: rgba(26, 28, 44, 0.05);
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 5.5rem; }
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  /* Faint square grid, like graph paper for sprite art. */
+  background-image:
+    linear-gradient(var(--grid) 2px, transparent 2px),
+    linear-gradient(90deg, var(--grid) 2px, transparent 2px);
+  background-size: 32px 32px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+/* The pixel font is for display sizes only (about 1.3rem and up). Small labels, buttons
+   and tags use the body font in bold, which stays legible at any size. */
+h1, h2, h3 { font-family: var(--font-pixel); line-height: 1.15; }
+
+/* Visible to screen readers only. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+a { color: var(--link); text-underline-offset: 3px; }
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+/* The shared "game window" look: thick outline, square corners, hard shadow. */
+.panel,
+.project-card,
+.contact-form {
+  background: var(--surface);
+  border: var(--border);
+  box-shadow: var(--drop) var(--drop) 0 var(--shadow);
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: var(--ink);
+  border: 3px solid var(--ink);
+  z-index: 20;
+}
+.skip-link:focus { left: 0.5rem; }
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-bottom: var(--border);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 4rem;
+}
+
+.nav__brand {
+  display: grid;
+  place-items: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding-inline: 0.4rem;
+  margin-right: auto;
+  background: var(--accent);
+  color: var(--ink);
+  border: 3px solid var(--line);
+  font-family: var(--font-pixel);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nav__links {
+  display: flex;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.nav__links a {
+  display: block;
+  padding: 0.25rem 0.7rem;
+  color: var(--text);
+  text-decoration: none;
+}
+.nav__links a:hover { background: var(--accent); color: var(--ink); }
+
+.theme-toggle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.theme-toggle:hover { background: var(--accent); color: var(--ink); }
+
+/* ---------- Hero ---------- */
+.hero { padding-block: clamp(3rem, 10vh, 6rem); }
+
+.hero__panel { padding: clamp(1.5rem, 5vw, 3rem); }
+
+.hero__eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.hero__name {
+  margin: 0;
+  font-size: clamp(2rem, 7vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  text-shadow: 4px 4px 0 var(--shadow);
+}
+:root[data-theme="light"] .hero__name { text-shadow: 4px 4px 0 var(--accent); }
+
+.hero__role {
+  margin: 1rem 0 0;
+  font-family: var(--font-pixel);
+  font-size: clamp(1.05rem, 3vw, 1.45rem);
+  color: var(--link);
+}
+
+.hero__tagline { max-width: 36rem; margin: 1rem 0 0; color: var(--muted); }
+
+.hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  border: var(--border);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 4px 4px 0 var(--shadow);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.btn--primary { background: var(--accent); color: var(--ink); }
+
+/* The button moves into its own shadow, like a physical key being pressed. */
+.btn:hover { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--shadow); }
+.btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 var(--shadow); }
+
+.btn:disabled { opacity: 0.6; cursor: progress; transform: none; }
+
+/* ---------- Sections ---------- */
+.section { padding-block: 3.5rem; }
+
+.section__title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 2rem;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+/* Square "cursor" marker before each heading. */
+.section__title::before {
+  content: "";
+  width: 0.9rem;
+  height: 0.9rem;
+  background: var(--accent);
+  border: 3px solid var(--line);
+  flex: none;
+}
+
+/* ---------- Projects (stage select) ---------- */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.75rem;
+  counter-reset: stage;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  counter-increment: stage;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.project-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: calc(var(--drop) + 2px) calc(var(--drop) + 2px) 0 var(--accent);
+}
+
+.project-card::before {
+  content: "Stage " counter(stage);
+  align-self: flex-start;
+  margin-bottom: 0.9rem;
+  padding: 0 0.5rem;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1.8;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.project-card__title { margin: 0 0 0.5rem; font-family: var(--font-body); font-size: 1.3rem; font-weight: 800; }
+.project-card__desc { margin: 0 0 1.25rem; color: var(--muted); font-size: 1rem; flex: 1; }
+
+.project-card__links {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
+
+.tag {
+  padding: 0 0.5rem;
+  border: 2px solid var(--line);
+  background: var(--bg);
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.75;
+}
+
+/* ---------- About ---------- */
+.about { display: grid; gap: 2rem; }
+.about__text { padding: clamp(1.25rem, 4vw, 2rem); }
+.about__text p { max-width: 68ch; margin: 0 0 1rem; }
+.about__text p:last-child { margin-bottom: 0; }
+.about__skills { padding: clamp(1.25rem, 4vw, 2rem); }
+.about__subtitle { margin: 0 0 1.25rem; font-size: 1.25rem; }
+
+#skill-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem 2rem;
+}
+
+.skill-group__title {
+  margin: 0 0 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--link);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ---------- Contact ---------- */
+.contact__intro { max-width: 36rem; margin: 0 0 2rem; color: var(--muted); }
+
+.contact-form { max-width: 36rem; padding: clamp(1.25rem, 4vw, 2rem); }
+
+.field { margin-bottom: 0.9rem; }
+
+.field label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.65rem 0.8rem;
+  background: var(--bg);
+  border: var(--border);
+  border-radius: 0;
+  color: var(--text);
+  font: inherit;
+}
+.field textarea { resize: vertical; }
+.field input:focus,
+.field textarea:focus { outline: none; box-shadow: 4px 4px 0 var(--accent); }
+
+.field [aria-invalid="true"] { border-color: var(--error); }
+
+.field__error { min-height: 1.3rem; margin: 0.3rem 0 0; color: var(--error); font-size: 0.9rem; }
+
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.form-status { min-height: 1.5rem; margin: 1.1rem 0 0; font-size: 1rem; font-weight: 700; }
+.form-status[data-state="success"] { color: var(--success); }
+.form-status[data-state="error"] { color: var(--error); }
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  list-style: none;
+  margin: 2.5rem 0 0;
+  padding: 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  margin-top: 2rem;
+  padding-block: 1.75rem;
+  border-top: var(--border);
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 640px) {
+  .about { grid-template-columns: 1fr; }
+  .nav__links { font-size: 0.95rem; }
+  .nav__links a { padding-inline: 0.4rem; }
+}
+
+/* ---------- Animation ---------- */
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes twinkle {
+  0%, 100% { opacity: 0.12; }
+  50%      { opacity: 0.85; }
+}
+
+/* Hero window pops in on load. */
+.hero__panel { animation: pop-in 0.5s steps(5) backwards; }
+
+/* Scroll reveal: main.js adds .reveal, then .is-visible once the element scrolls into view.
+   `backwards` holds the first frame during the stagger delay, then lets go completely,
+   so hover transforms on cards still work afterwards. */
+.reveal { opacity: 0; }
+.reveal.is-visible {
+  opacity: 1;
+  animation: pop-in 0.45s steps(5) backwards;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Section markers blink like a text cursor. */
+.section__title::before { animation: blink 1.2s steps(1) infinite; }
+
+/* Typewriter cursor after the hero role. */
+.type-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.9em;
+  margin-left: 0.15em;
+  background: currentColor;
+  vertical-align: -0.08em;
+  animation: blink 0.9s steps(1) infinite;
+}
+
+/* Current section in the nav. */
+.nav__links a[aria-current="true"] { background: var(--accent); color: var(--ink); }
+
+/* The logo tilts when you point at it. */
+.nav__brand { transition: transform 0.1s steps(2); }
+.nav__brand:hover { transform: rotate(-10deg); }
+
+/* A menu-select arrow slides in beside the project you are pointing at. */
+.project-card__title::before {
+  content: "▶";
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+  opacity: 0;
+  color: var(--link);
+  font-size: 0.75em;
+  vertical-align: 0.1em;
+  transition: width 0.12s steps(3), opacity 0.12s steps(3);
+}
+.project-card:hover .project-card__title::before,
+.project-card:focus-within .project-card__title::before { width: 1.3em; opacity: 1; }
+
+.tag { transition: transform 0.08s steps(2); }
+.tag:hover { background: var(--accent); color: var(--ink); transform: translateY(-3px); }
+
+/* Twinkling pixel stars behind the page (created in main.js). */
+.stars { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.star {
+  position: absolute;
+  background: var(--muted);
+  opacity: 0.12;
+  animation: twinkle 3s steps(4) infinite;
+}
+.star:nth-child(3n) { background: var(--link); }
+
+/* Hero name: letters drop in one at a time, and the hard shadow slowly changes colour. */
+@keyframes char-drop {
+  from { opacity: 0; transform: translateY(-0.6em); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes shadow-cycle {
+  0%, 100% { text-shadow: 4px 4px 0 var(--name-shadow-1); }
+  33%      { text-shadow: 4px 4px 0 var(--name-shadow-2); }
+  66%      { text-shadow: 4px 4px 0 var(--name-shadow-3); }
+}
+:root { --name-shadow-1: var(--shadow); }
+:root[data-theme="light"] { --name-shadow-1: var(--accent); }
+.hero__name { animation: shadow-cycle 12s steps(1) infinite; }
+.hero__name .word { display: inline-block; white-space: nowrap; }
+.hero__name .char {
+  display: inline-block;
+  animation: char-drop 0.35s steps(4) backwards;
+  animation-delay: calc(var(--i) * 60ms + 350ms);
+}
+
+/* Skill tags pop in one after another once their panel has been revealed. */
+.about__skills.is-visible .tag {
+  animation: pop-in 0.3s steps(3) backwards;
+  animation-delay: calc(var(--t, 0) * 30ms + 250ms);
+}
+
+/* Segmented progress bar under the header, filled by main.js as the page scrolls. */
+.xp-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 3px);
+  height: 6px;
+  /* The mask cuts the bar into blocks, like a health or XP meter. */
+  -webkit-mask: repeating-linear-gradient(90deg, #000 0 14px, transparent 14px 18px);
+          mask: repeating-linear-gradient(90deg, #000 0 14px, transparent 14px 18px);
+}
+.xp-bar__fill {
+  height: 100%;
+  background: var(--accent);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: left;
+}
+
+/* A comet crosses the sky during the first part of each cycle, then waits off-screen. */
+@keyframes comet {
+  0%        { transform: translate(5vw, -4vh); opacity: 1; }
+  12%       { transform: translate(75vw, 38vh); opacity: 1; }
+  13%, 100% { transform: translate(75vw, 38vh); opacity: 0; }
+}
+.comet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  opacity: 0;
+  box-shadow:
+    -8px -5px 0 -1px var(--accent),
+    -16px -10px 0 -2px var(--accent);
+  animation: comet 12s linear 4s infinite;
+}
+
+/* ---------- Character links (sprites from sprites.js) ---------- */
+@keyframes bob { 50% { transform: translateY(-4px); } }
+@keyframes hop {
+  0%, 100% { transform: translateY(0); }
+  40%      { transform: translateY(-16px); }
+}
+@keyframes sprite-blink {
+  0%, 92%, 100% { opacity: 1; }
+  94%, 98%      { opacity: 0; }
+}
+
+.social-links { gap: 2.5rem; align-items: flex-end; }
+
+.character-link {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 2.4rem;          /* room for the speech bubble */
+  color: var(--text);
+  text-decoration: none;
+}
+
+.sprite { width: 84px; height: 84px; animation: bob 1s steps(2) infinite; }
+.social-links li:nth-child(even) .sprite { animation-delay: -0.5s; }   /* out of step with its neighbour */
+
+.sprite__eye { animation: sprite-blink 4s steps(1) infinite; }
+.social-links li:nth-child(even) .sprite__eye { animation-delay: -1.7s; }
+.sprite__glow { animation: blink 1.4s steps(1) infinite; }
+
+.character-link__label { border-bottom: 3px solid var(--accent); line-height: 1.4; }
+
+.character-link__bubble {
+  position: absolute;
+  top: 0;
+  padding: 0.1rem 0.55rem;
+  background: var(--surface);
+  border: 2px solid var(--line);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+}
+/* The little tail under the bubble. */
+.character-link__bubble::after {
+  content: "";
+  position: absolute;
+  left: calc(50% - 4px);
+  bottom: -8px;
+  width: 6px;
+  height: 6px;
+  background: var(--line);
+}
+
+.character-link:hover .character-link__bubble,
+.character-link:focus-visible .character-link__bubble { opacity: 1; }
+.character-link:hover .sprite,
+.character-link:focus-visible .sprite { animation: hop 0.45s steps(5) infinite; }
+.character-link:hover .character-link__label { color: var(--link); }
+
+/* Reduced motion: keep gentle in-place effects (fades, typing, twinkling) but remove
+   anything that moves across the screen or blinks. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * , *::before, *::after { transition: none !important; }
+
+  /* Same names as above, so reveals and letters become plain fades with no sliding. */
+  @keyframes pop-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+  @keyframes char-drop {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .comet { display: none; }
+  /* Characters stand still (no bobbing or hopping) but still blink and flash their lights. */
+  .sprite,
+  .character-link:hover .sprite,
+  .character-link:focus-visible .sprite { animation: none; }
+  .sprite__glow { animation: blink 1.4s steps(1) infinite; }
+  .section__title::before,
+  .type-cursor { animation: none; }
+  .nav__brand:hover,
+  .tag:hover { transform: none; }
+}

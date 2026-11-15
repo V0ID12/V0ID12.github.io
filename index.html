@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <meta name="description" content="Developer portfolio: projects, skills and contact.">
+
+  <!-- Set the theme before the page paints, so there is no flash of the wrong colours. -->
+  <script>
+    (function () {
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      document.documentElement.dataset.theme = saved || (prefersLight ? 'light' : 'dark');
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav container" aria-label="Main">
+      <a class="nav__brand" href="#top" aria-label="Back to top" data-bind="initials"></a>
+      <ul class="nav__links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch colour theme">
+        <span aria-hidden="true" id="theme-toggle-icon">☀</span>
+      </button>
+    </nav>
+    <div class="xp-bar" aria-hidden="true"><div class="xp-bar__fill" id="xp-fill"></div></div>
+  </header>
+
+  <main id="main">
+    <section class="hero container" id="top">
+      <div class="hero__panel panel">
+        <p class="hero__eyebrow">Hi, I'm</p>
+        <h1 class="hero__name" data-bind="name"></h1>
+        <p class="hero__role" data-bind="role"></p>
+        <p class="hero__tagline" data-bind="tagline"></p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="#projects">View my work</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="projects">
+      <h2 class="section__title">Projects</h2>
+      <div class="project-grid" id="project-grid"></div>
+    </section>
+
+    <section class="section container" id="about">
+      <h2 class="section__title">About</h2>
+      <div class="about">
+        <div class="about__text panel" id="about-text"></div>
+        <div class="about__skills panel">
+          <h3 class="about__subtitle">Skills</h3>
+          <div id="skill-groups"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="contact">
+      <h2 class="section__title">Contact</h2>
+      <p class="contact__intro" data-bind="contactIntro"></p>
+
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" aria-describedby="name-error">
+          <p class="field__error" id="name-error"></p>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-error">
+          <p class="field__error" id="email-error"></p>
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="6" aria-describedby="message-error"></textarea>
+          <p class="field__error" id="message-error"></p>
+        </div>
+
+        <!-- Honeypot: hidden from people, but bots fill in every field they find. -->
+        <div class="hp" aria-hidden="true">
+          <label for="company">Company</label>
+          <input id="company" name="company" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <button class="btn btn--primary" id="contact-submit" type="submit">Send message</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+
+      <ul class="social-links" id="social-links"></ul>
+    </section>
+  </main>
+
+  <footer class="site-footer container">
+    <p>&copy; <span id="year"></span> <span data-bind="name"></span></p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/sprites.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
