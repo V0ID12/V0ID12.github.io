@@ -51,24 +51,17 @@ const SITE = {
     },
     {
       title: 'Coffee Browser',
-      description: 'One shared Razor component library running inside four different front ends: Blazor Server, .NET MAUI, WinForms and WPF. Built alongside a Pluralsight course on Blazor Hybrid apps.',
+      description: 'One Blazor UI, written once in a shared Razor class library and hosted by four apps: Blazor Server, .NET MAUI, WinForms and WPF. Each host plugs in its own data and auth services. Built alongside a Pluralsight course on Blazor Hybrid apps.',
       tags: ['C#', 'Blazor', '.NET MAUI', 'WPF'],
       live: '',
       source: 'https://github.com/V0ID12/CoffeeBrowser',
-    },
-    {
-      title: 'OpenGL Graphics',
-      description: 'Low-level graphics programming in C++ with OpenGL and GLAD, set up from scratch in Visual Studio and worked through from the freeCodeCamp OpenGL course.',
-      tags: ['C/C++', 'OpenGL'],
-      live: '',
-      source: 'https://github.com/V0ID12/FCC-OpenGLTutorial',
     },
     {
       title: 'PostgreSQL & Bash Projects',
       description: 'Six projects from the freeCodeCamp Relational Database certification, including a World Cup results database, a salon appointment scheduler and a bike rental shop, all driven by Bash scripts.',
       tags: ['PostgreSQL', 'Bash', 'SQL'],
       live: '',
-      source: 'https://github.com/V0ID12?tab=repositories&q=FCC',
+      source: 'https://github.com/V0ID12?tab=repositories&q=FCC-',
     },
   ],
 };
